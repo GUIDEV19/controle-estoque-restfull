@@ -1,0 +1,6 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+Estou criando uma API para restão de estoque em nestjs RESTFULL, quero que a aplicação utilize todos os nível de maturidade possíveis do padrão rest e consiga processar dados tanto em XML quanto JSON, trabalhe com content negotiation, HAL 
