@@ -28,7 +28,28 @@ export default tseslint.config(
     rules: {
       '@typescript-eslint/no-explicit-any': 'off',
       '@typescript-eslint/no-floating-promises': 'warn',
-      '@typescript-eslint/no-unsafe-argument': 'warn'
+      '@typescript-eslint/no-unsafe-argument': 'warn',
+      '@typescript-eslint/explicit-function-return-type': 'warn',
+      '@typescript-eslint/explicit-member-accessibility': 'warn',
+      '@typescript-eslint/no-unused-vars': ['error', { 'argsIgnorePattern': '^_' }],
+      'indent': ['error', 2],
+      'quotes': ['error', 'double'],
+      'semi': ['error', 'always'],
+      'comma-dangle': ['error', 'always-multiline'],
+      'no-console': 'warn',
+      'no-debugger': 'warn',
+      'no-duplicate-imports': 'error',
+      'no-unused-expressions': 'error',
+      'no-var': 'error',
+      'prefer-const': 'error',
+      'import/order': [
+        'error',
+        {
+          'groups': ['builtin', 'external', 'internal', 'parent', 'sibling', 'index'],
+          'newlines-between': 'always',
+          'alphabetize': { 'order': 'asc' }
+        }
+      ]
     },
   },
 );
