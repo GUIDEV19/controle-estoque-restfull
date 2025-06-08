@@ -1,0 +1,77 @@
+version: '3.8'
+
+services:
+  # Development service
+  api-dev:
+    build:
+      context: .
+      target: builder
+    container_name: estoque-api-dev
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    command: npm run start:dev
+    environment:
+      - NODE_ENV=development
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_USERNAME=estoque
+      - DB_PASSWORD=dg7EcenQvT7oGpo
+      - DB_DATABASE=estoque_db
+    networks:
+      - estoque-network
+    depends_on:
+      - mysql
+
+  # Production service
+  api-prod:
+    build:
+      context: .
+    container_name: estoque-api-prod
+    ports:
+      - "3001:3000"
+    environment:
+      - NODE_ENV=production
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_USERNAME=estoque
+      - DB_PASSWORD=dg7EcenQvT7oGpo
+      - DB_DATABASE=estoque_db
+    networks:
+      - estoque-network
+    depends_on:
+      - mysql
+
+  # MySQL Database
+  mysql:
+    image: mysql:8.0
+    container_name: estoque_db
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=Jvza2oWeJWr6L6v
+      - MYSQL_DATABASE=estoque_db
+      - MYSQL_USER=estoque
+      - MYSQL_PASSWORD=dg7EcenQvT7oGpo
+    ports:
+      - "3310:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./docker/mysql/init:/docker-entrypoint-initdb.d
+    networks:
+      - estoque-network
+    command: --default-authentication-plugin=mysql_native_password
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pJvza2oWeJWr6L6v"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+networks:
+  estoque-network:
+    driver: bridge
+
+volumes:
+  mysql_data:
+    driver: local 
