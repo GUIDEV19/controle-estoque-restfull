@@ -1,5 +1,5 @@
 # Build stage
-FROM node:20.11.1-slim AS builder
+FROM node:20.18.0-slim AS builder
 
 WORKDIR /app
 
@@ -29,4 +29,4 @@ COPY --from=builder /app/dist ./dist
 
 EXPOSE 3000
 
-CMD ["npm", "run", "start:prod"]
+CMD ["npm", "run", "start:dev"]
