@@ -87,6 +87,69 @@
 | `AllExceptionsFilter` | Filtro para todas as exceções |
 | `ValidationExceptionFilter` | Filtro específico para exceções de validação |
 
+## Sistema de Logs
+
+A aplicação utiliza o Winston como sistema de logging, implementado através do `CustomLoggerService`. O sistema de logs foi projetado para fornecer informações detalhadas sobre o funcionamento da aplicação.
+
+### Configuração do Logger
+
+O logger está configurado com as seguintes características:
+- Formato JSON para logs estruturados
+- Timestamp em cada entrada de log
+- Níveis de log: error, warn, info, debug, verbose
+- Output colorizado no console para melhor visualização
+
+### Uso do Logger
+
+Para utilizar o logger em qualquer serviço, basta injetá-lo no construtor:
+
+```typescript
+constructor(
+  private readonly logger: CustomLoggerService
+) {}
+```
+
+### Métodos Disponíveis
+
+| Método | Descrição | Exemplo |
+|--------|-----------|---------|
+| `log()` | Log de informação geral | `logger.log('Operação realizada', 'ServiceName')` |
+| `error()` | Log de erros | `logger.error('Erro na operação', error.stack, 'ServiceName')` |
+| `warn()` | Log de avisos | `logger.warn('Aviso importante', 'ServiceName')` |
+| `debug()` | Log de debug | `logger.debug('Informação de debug', 'ServiceName')` |
+| `verbose()` | Log detalhado | `logger.verbose('Informação detalhada', 'ServiceName')` |
+
+### Exemplo de Uso
+
+```typescript
+@Injectable()
+export class EntityService {
+  constructor(
+    private readonly logger: CustomLoggerService
+  ) {}
+
+  async findAll(): Promise<TbEntity[]> {
+    try {
+      this.logger.log('Iniciando busca de entidades', 'EntityService');
+      const entities = await this.repository.find();
+      this.logger.log(`Encontradas ${entities.length} entidades`, 'EntityService');
+      return entities;
+    } catch (error) {
+      this.logger.error('Erro ao buscar entidades', error.stack, 'EntityService');
+      throw new InternalServerErrorException('Erro ao buscar entidades');
+    }
+  }
+}
+```
+
+### Boas Práticas
+
+1. Sempre inclua o contexto (nome do serviço) nos logs
+2. Use o nível apropriado para cada situação
+3. Inclua stack traces em logs de erro
+4. Mantenha mensagens claras e informativas
+5. Evite logs sensíveis (senhas, tokens, etc.)
+
 ## Exemplo de Uso
 
 ```typescript
