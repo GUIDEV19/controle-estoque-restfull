@@ -1,7 +1,8 @@
-import { Controller, Get, Options, Res, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Options, Post, Res, UseInterceptors } from '@nestjs/common';
 import { JsonToHalInterceptor } from '../../interceptors/json-to-hal.interceptor';
 import { EntityService } from '../bussines/entity.service';
 import { Response } from 'express';
+import { EntityDto } from '../dto/entity.dto';
 
 @Controller('entities')
 @UseInterceptors(JsonToHalInterceptor)
@@ -22,5 +23,12 @@ export class EntityController {
   @Get()
   async findAll() {
     return this.entityService.findAll();
+  }
+
+  @Post()
+  async save(
+    @Body() entity: EntityDto
+  ) {
+    return this.entityService.save(entity);
   }
 }
