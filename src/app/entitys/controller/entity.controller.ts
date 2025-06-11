@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Options, Post, Res, UseInterceptors } from '@nestjs/common';
-import { JsonToHalInterceptor } from '../../interceptors/json-to-hal.interceptor';
+import { JsonToHalInterceptor } from '../../../interceptors/json-to-hal.interceptor';
 import { EntityService } from '../bussines/entity.service';
 import { Response } from 'express';
 import { EntityDto } from '../dto/entity.dto';

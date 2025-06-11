@@ -1,7 +1,7 @@
 import { Injectable, Inject, NotFoundException, InternalServerErrorException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { TbEntity } from '../domain/entity.entity';
-import { CustomLoggerService } from '../../common/services/logger.service';
+import { CustomLoggerService } from '../../../common/services/logger.service';
 import { EntityDto } from '../dto/entity.dto';
 
 @Injectable()

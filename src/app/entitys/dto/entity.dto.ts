@@ -1,8 +1,6 @@
 import { IsEnum, IsNotEmpty, IsNumber } from "class-validator";
 import { IsString } from "class-validator";
 
-
-
 export class EntityDto {
   @IsString()
   @IsNotEmpty()
