@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS TbEntity (
     name VARCHAR(255) NOT NULL,
     type enum('unity', 'people', 'supplier'), 
     document VARCHAR(255) NOT NULL,
-    daughter INT DEFAULT NULL,
+    daughter BOOLEAN DEFAULT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     deleted_at TIMESTAMP DEFAULT NULL

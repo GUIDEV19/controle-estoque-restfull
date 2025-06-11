@@ -16,7 +16,7 @@ export class TbEntity {
   document: string;
 
   @Column({ type: 'int', nullable: true })
-  daughter: number;
+  daughter: boolean;
 
   @CreateDateColumn({ type: 'timestamp' })
   created_at: Date;

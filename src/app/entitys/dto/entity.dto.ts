@@ -1,4 +1,4 @@
-import { IsEnum, IsNotEmpty, IsNumber } from "class-validator";
+import { IsBoolean, IsEnum, IsNotEmpty, IsNumber } from "class-validator";
 import { IsString } from "class-validator";
 
 export class EntityDto {
@@ -14,8 +14,8 @@ export class EntityDto {
   @IsNotEmpty()
   document: string;
 
-  @IsNumber()
+  @IsBoolean()
   @IsNotEmpty()
-  daughter: number;
+  daughter: boolean;
 
 }
