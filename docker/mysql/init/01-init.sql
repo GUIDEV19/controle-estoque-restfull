@@ -11,7 +11,7 @@ FLUSH PRIVILEGES;
 
 ---Table Entities
 CREATE TABLE IF NOT EXISTS TbEntity (
-    idEntity INT AUTO_INCREMENT PRIMARY KEY,
+    id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     type enum('unity', 'people', 'supplier'), 
     document VARCHAR(255) NOT NULL,

@@ -4,7 +4,7 @@ import { Entity, Column, PrimaryGeneratedColumn, DeleteDateColumn, CreateDateCol
 @Entity('TbEntity')
 export class TbEntity {
   @PrimaryGeneratedColumn()
-  idEntity: number;
+  id: number;
 
   @Column({ length: 255 })
   name: string;
