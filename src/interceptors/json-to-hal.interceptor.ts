@@ -36,6 +36,7 @@ export class JsonToHalInterceptor implements NestInterceptor {
     response.setHeader('Content-Type', contentType);
 
     if (contentType === 'application/json') {
+      response.setHeader('Content-Type', 'application/json');
       return next.handle().pipe(
         map((data) => {
           delete data._links;
@@ -45,6 +46,7 @@ export class JsonToHalInterceptor implements NestInterceptor {
     }
 
     if(contentType === 'application/xml') {
+      response.setHeader('Content-Type', 'application/xml');
       return next.handle().pipe(
         map((data) => {
           const builder = new XMLBuilder({
@@ -57,6 +59,7 @@ export class JsonToHalInterceptor implements NestInterceptor {
       );
     }
 
+    response.setHeader('Content-Type', 'application/hal+json');
     return next.handle().pipe(
       map((data) => {
         return this.formatHalService.formatHal(data, {
