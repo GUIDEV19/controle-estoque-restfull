@@ -1,12 +1,16 @@
 import { Injectable, NestInterceptor, ExecutionContext, CallHandler } from '@nestjs/common';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { FormatHalService } from 'src/common/services/formatHal.service';
+import { XMLBuilder } from 'fast-xml-parser';
 
 @Injectable()
 export class JsonToHalInterceptor implements NestInterceptor {
+  constructor(private readonly formatHalService: FormatHalService) {}
   private readonly supportedContentTypes = [
     'application/json',
-    'application/hal+json'
+    'application/hal+json',
+    'application/xml'
   ];
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
@@ -32,12 +36,33 @@ export class JsonToHalInterceptor implements NestInterceptor {
     response.setHeader('Content-Type', contentType);
 
     if (contentType === 'application/json') {
-      return next.handle();
+      return next.handle().pipe(
+        map((data) => {
+          delete data._links;
+          return data;
+        })
+      );
+    }
+
+    if(contentType === 'application/xml') {
+      return next.handle().pipe(
+        map((data) => {
+          const builder = new XMLBuilder({
+            ignoreAttributes: false,
+            format: true,
+            indentBy: '  '
+          });
+          return builder.build({ response: data });
+        })
+      );
     }
 
     return next.handle().pipe(
       map((data) => {
-        return this.transformToHal(data, request.url)
+        return this.formatHalService.formatHal(data, {
+          self: { href: request.url },
+          ...data?._links
+        });
       })
     );
   }
@@ -52,43 +77,5 @@ export class JsonToHalInterceptor implements NestInterceptor {
     }
 
     return null;
-  }
-
-  private transformToHal(data: any, baseUrl: string): any {
-    if (data && data._links) {
-      return data;
-    }
-
-    if (Array.isArray(data)) {
-      return {
-        _links: {
-          self: { href: baseUrl }
-        },
-        _embedded: {
-          items: data.map(item => ({
-            ...item,
-            _links: {
-              self: { href: `${baseUrl}/${item.id || item.idEntity}` } //Problema: não vai funcionar para outras entidades
-            }
-          }))
-        }
-      };
-    }
-
-    if (data && typeof data === 'object') {
-      return {
-        _links: {
-          self: { href: baseUrl }
-        },
-        ...data //Problema: Vai ficar faltando o _embedded
-      };
-    }
-
-    return {
-      _links: {
-        self: { href: baseUrl }
-      },
-      data
-    };
   }
 } 
