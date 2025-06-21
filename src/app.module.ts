@@ -8,6 +8,7 @@ import { UserModule } from './app/users/user.module';
 import { AuthModule } from './app/auth/auth.module';
 import { JwtAuthGuard } from './app/auth/guards/jwt-auth.guard';
 import { StatusController } from './app/status/status.controller';
+import { CategoriesModule } from './app/categories/categories.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { StatusController } from './app/status/status.controller';
     EntityModule,
     UserModule,
     AuthModule,
+    CategoriesModule
   ],
   controllers: [StatusController],
   providers: [
