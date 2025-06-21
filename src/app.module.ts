@@ -7,6 +7,7 @@ import { CommonModule } from './common/common.module';
 import { UserModule } from './app/users/user.module';
 import { AuthModule } from './app/auth/auth.module';
 import { JwtAuthGuard } from './app/auth/guards/jwt-auth.guard';
+import { StatusController } from './app/status/status.controller';
 
 @Module({
   imports: [
@@ -18,7 +19,7 @@ import { JwtAuthGuard } from './app/auth/guards/jwt-auth.guard';
     UserModule,
     AuthModule,
   ],
-  controllers: [],
+  controllers: [StatusController],
   providers: [
     ...databaseProviders,
     {
