@@ -32,6 +32,32 @@ CREATE TABLE IF NOT EXISTS TbUser (
     deleted_at TIMESTAMP DEFAULT NULL
 );
 
+---Table Categories
+CREATE TABLE IF NOT EXISTS TbCategory (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    deleted_at TIMESTAMP DEFAULT NULL
+);
+
+---Table Products
+CREATE TABLE IF NOT EXISTS TbProduct (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    description VARCHAR(255) NOT NULL,
+    category_id INT NOT NULL,
+    price DECIMAL(10, 2) NOT NULL,
+    user_created_id INT NOT NULL,
+    user_updated_id INT NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    deleted_at TIMESTAMP DEFAULT NULL,
+    CONSTRAINT fk_product_category FOREIGN KEY (category_id) REFERENCES TbCategory(id),
+    CONSTRAINT fk_product_user_created FOREIGN KEY (user_created_id) REFERENCES TbUser(id),
+    CONSTRAINT fk_product_user_updated FOREIGN KEY (user_updated_id) REFERENCES TbUser(id)
+);
+
 ---Table Transactions
 CREATE TABLE IF NOT EXISTS TbTransaction (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -69,28 +95,5 @@ CREATE TABLE IF NOT EXISTS TbTransactionItem (
     CONSTRAINT fk_transaction_item_user_updated FOREIGN KEY (user_updated_id) REFERENCES TbUser(id)
 );
 
----Table Products
-CREATE TABLE IF NOT EXISTS TbProduct (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    description VARCHAR(255) NOT NULL,
-    category_id INT NOT NULL,
-    price DECIMAL(10, 2) NOT NULL,
-    user_created_id INT NOT NULL,
-    user_updated_id INT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    deleted_at TIMESTAMP DEFAULT NULL,
-    CONSTRAINT fk_product_category FOREIGN KEY (category_id) REFERENCES TbCategory(id),
-    CONSTRAINT fk_product_user_created FOREIGN KEY (user_created_id) REFERENCES TbUser(id),
-    CONSTRAINT fk_product_user_updated FOREIGN KEY (user_updated_id) REFERENCES TbUser(id)
-);
 
----Table Categories
-CREATE TABLE IF NOT EXISTS TbCategory (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    deleted_at TIMESTAMP DEFAULT NULL
-);
+
