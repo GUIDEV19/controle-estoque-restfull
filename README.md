@@ -199,3 +199,196 @@ curl -H "Accept: application/json" http://localhost:3000/products
 # Para XML
 curl -H "Accept: application/xml" http://localhost:3000/products
 ```
+
+# Controle de Estoque REST API
+
+API REST completa para controle de estoque desenvolvida em NestJS, seguindo os princípios REST e implementando content negotiation, HAL e múltiplos níveis de maturidade REST.
+
+## 🚀 Funcionalidades
+
+- **Autenticação JWT** com extração automática de dados do usuário
+- **Content Negotiation** suportando JSON, XML e HAL
+- **Auditoria automática** de todas as operações
+- **Arquitetura REST** seguindo todos os níveis de maturidade
+- **Interceptors personalizados** para contexto do usuário
+- **Decorators customizados** para extração de dados
+
+## 🔐 Sistema de Autenticação
+
+### Decorator `@CurrentUser`
+
+Extrai automaticamente os dados do usuário autenticado:
+
+```typescript
+@Post()
+async create(
+    @Body() createDto: CreateDto,
+    @CurrentUser() user: TbUser
+) {
+    // user.id, user.name, user.email disponíveis
+    return this.service.create(createDto, user);
+}
+```
+
+### Uso em Controllers
+
+```typescript
+@Controller('products')
+@UseGuards(JwtAuthGuard)
+@UseInterceptors(UserContextInterceptor)
+export class ProductsController {
+    
+    @Post()
+    async create(
+        @Body() createProductDto: CreateProductDto,
+        @CurrentUser() user: TbUser
+    ) {
+        return this.productsService.create(createProductDto, user);
+    }
+}
+```
+
+## 📁 Estrutura do Projeto
+
+```
+src/
+├── app/
+│   ├── auth/
+│   │   ├── decorators/
+│   │   │   ├── current-user.decorator.ts    # Decorator para extrair usuário
+│   │   │   └── public.decorator.ts
+│   │   ├── guards/
+│   │   │   └── jwt-auth.guard.ts
+│   │   ├── interceptors/
+│   │   │   └── user-context.interceptor.ts  # Contexto do usuário
+│   │   └── strategies/
+│   │       └── jwt.strategy.ts
+│   ├── products/
+│   ├── categories/
+│   └── users/
+├── common/
+└── config/
+```
+
+## 🛠️ Instalação
+
+```bash
+# Instalar dependências
+npm install
+
+# Configurar variáveis de ambiente
+cp .env.example .env
+
+# Executar com Docker
+docker-compose up -d
+
+# Executar aplicação
+npm run start:dev
+```
+
+## 🔧 Configuração
+
+### Variáveis de Ambiente
+
+```env
+JWT_SECRET=your-secret-key
+JWT_EXPIRATION=1h
+DATABASE_HOST=localhost
+DATABASE_PORT=3306
+DATABASE_USER=root
+DATABASE_PASSWORD=password
+DATABASE_NAME=estoque
+```
+
+## 📖 Documentação
+
+- [Guia de Autenticação](docs/authentication-guide.md)
+- [Exemplos de Teste](docs/test-examples.md)
+
+## 🧪 Testes
+
+```bash
+# Testes unitários
+npm run test
+
+# Testes e2e
+npm run test:e2e
+
+# Cobertura de testes
+npm run test:cov
+```
+
+## 🔄 Fluxo de Autenticação
+
+1. **Request** com token JWT no header `Authorization: Bearer <token>`
+2. **JwtAuthGuard** valida o token
+3. **JwtStrategy** extrai payload e busca usuário no banco
+4. **UserContextInterceptor** adiciona contexto adicional
+5. **@CurrentUser decorator** extrai usuário do request
+6. **Controller** recebe usuário tipado como `TbUser`
+
+## 📊 Content Negotiation
+
+O sistema suporta múltiplos formatos:
+
+```bash
+# JSON (padrão)
+Accept: application/json
+
+# XML (se implementado)
+Accept: application/xml
+
+# HAL
+Accept: application/hal+json
+```
+
+## 🔍 Exemplo de Uso
+
+### 1. Login
+```bash
+curl -X POST http://localhost:3000/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email": "user@example.com", "password": "password"}'
+```
+
+### 2. Criar Produto (autenticado)
+```bash
+curl -X POST http://localhost:3000/products \
+  -H "Authorization: Bearer <token>" \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Produto", "price": 99.99}'
+```
+
+### 3. Obter Informações do Usuário
+```bash
+curl -X GET http://localhost:3000/status/user-info \
+  -H "Authorization: Bearer <token>"
+```
+
+## 🛡️ Segurança
+
+- Tokens JWT com expiração configurável
+- Validação automática em cada requisição
+- Usuário buscado do banco a cada validação
+- Tratamento de erros de autenticação
+- Auditoria automática de todas as operações
+
+## 📈 Próximos Passos
+
+- [ ] Implementar serialização XML
+- [ ] Adicionar suporte completo a HAL
+- [ ] Implementar rate limiting
+- [ ] Adicionar cache Redis
+- [ ] Implementar refresh tokens
+
+## 🤝 Contribuição
+
+1. Fork o projeto
+2. Crie uma branch para sua feature (`git checkout -b feature/AmazingFeature`)
+3. Commit suas mudanças (`git commit -m 'Add some AmazingFeature'`)
+4. Push para a branch (`git push origin feature/AmazingFeature`)
+5. Abra um Pull Request
+
+## 📄 Licença
+
+Este projeto está sob a licença MIT. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
