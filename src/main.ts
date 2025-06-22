@@ -3,6 +3,9 @@ import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { json, urlencoded } from 'express';
+import { JsonToHalInterceptor } from './interceptors/json-to-hal.interceptor';
+import { FormatHalService } from './common/services/formatHal.service';
+import { UserContextInterceptor } from './app/auth/interceptors/user-context.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
@@ -20,6 +23,9 @@ async function bootstrap() {
     whitelist: true,
     forbidNonWhitelisted: true,
   }));
+
+  app.useGlobalInterceptors(new JsonToHalInterceptor(app.get(FormatHalService)));
+  app.useGlobalInterceptors(new UserContextInterceptor());
 
   const config = new DocumentBuilder()
     .setTitle('Inventory Management API')
