@@ -14,12 +14,12 @@ export class TbUser {
     @Column({ length: 255 })
     password: string;
 
-    @CreateDateColumn({ type: 'timestamp' })
+    @CreateDateColumn({ type: 'timestamp', name: 'created_at' })
     created_at: Date;
 
-    @UpdateDateColumn({ type: 'timestamp' })
+    @UpdateDateColumn({ type: 'timestamp', name: 'updated_at' })
     updated_at: Date;
 
-    @DeleteDateColumn({ type: 'timestamp', nullable: true })
+    @DeleteDateColumn({ type: 'timestamp', name: 'deleted_at', nullable: true })
     deleted_at: Date;
 }

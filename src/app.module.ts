@@ -9,6 +9,7 @@ import { AuthModule } from './app/auth/auth.module';
 import { JwtAuthGuard } from './app/auth/guards/jwt-auth.guard';
 import { StatusController } from './app/status/status.controller';
 import { CategoriesModule } from './app/categories/categories.module';
+import { ProductsModule } from './app/products/products.module';
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import { CategoriesModule } from './app/categories/categories.module';
     EntityModule,
     UserModule,
     AuthModule,
-    CategoriesModule
+    CategoriesModule,
+    ProductsModule
   ],
   controllers: [StatusController],
   providers: [

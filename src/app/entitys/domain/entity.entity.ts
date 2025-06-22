@@ -1,4 +1,3 @@
-
 import { Entity, Column, PrimaryGeneratedColumn, DeleteDateColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity('TbEntity')
@@ -18,12 +17,12 @@ export class TbEntity {
   @Column({ type: 'int', nullable: true })
   daughter: boolean;
 
-  @CreateDateColumn({ type: 'timestamp' })
+  @CreateDateColumn({ type: 'timestamp', name: 'created_at' })
   created_at: Date;
 
-  @UpdateDateColumn({ type: 'timestamp' })
+  @UpdateDateColumn({ type: 'timestamp', name: 'updated_at' })
   updated_at: Date;
 
-  @DeleteDateColumn({ type: 'timestamp', nullable: true })
+  @DeleteDateColumn({ type: 'timestamp', name: 'deleted_at', nullable: true })
   deleted_at: Date;
 }
