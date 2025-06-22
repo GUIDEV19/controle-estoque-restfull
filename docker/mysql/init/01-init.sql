@@ -46,6 +46,7 @@ CREATE TABLE IF NOT EXISTS TbProduct (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     description VARCHAR(255) NOT NULL,
+    quantity INT NOT NULL,
     category_id INT NOT NULL,
     price DECIMAL(10, 2) NOT NULL,
     user_created_id INT NOT NULL,
