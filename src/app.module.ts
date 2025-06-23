@@ -10,6 +10,7 @@ import { JwtAuthGuard } from './app/auth/guards/jwt-auth.guard';
 import { StatusController } from './app/status/status.controller';
 import { CategoriesModule } from './app/categories/categories.module';
 import { ProductsModule } from './app/products/products.module';
+import { TransactionsModule } from './app/transacrions/transactions.module';
 
 @Module({
   imports: [
@@ -21,7 +22,8 @@ import { ProductsModule } from './app/products/products.module';
     UserModule,
     AuthModule,
     CategoriesModule,
-    ProductsModule
+    ProductsModule,
+    TransactionsModule
   ],
   controllers: [StatusController],
   providers: [
