@@ -1,4 +1,5 @@
-import { Column, CreateDateColumn, DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { TransactionItem } from "src/app/trasactionsItens/domain/transactionsItens.entity";
+import { Column, CreateDateColumn, DeleteDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity('TbTransaction')
 export class Transaction {
@@ -50,4 +51,7 @@ export class Transaction {
         nullable: true
     })
     deleted_at: Date;
+
+    @OneToMany(() => TransactionItem, (transactionItem) => transactionItem.transaction)
+    transactionItems: TransactionItem[];
 }

@@ -11,6 +11,7 @@ import { StatusController } from './app/status/status.controller';
 import { CategoriesModule } from './app/categories/categories.module';
 import { ProductsModule } from './app/products/products.module';
 import { TransactionsModule } from './app/transacrions/transactions.module';
+import { TransactionItensModule } from './app/trasactionsItens/transactionItens.module';
 
 @Module({
   imports: [
@@ -23,7 +24,8 @@ import { TransactionsModule } from './app/transacrions/transactions.module';
     AuthModule,
     CategoriesModule,
     ProductsModule,
-    TransactionsModule
+    TransactionsModule,
+    TransactionItensModule
   ],
   controllers: [StatusController],
   providers: [

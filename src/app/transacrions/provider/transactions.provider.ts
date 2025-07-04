@@ -5,5 +5,5 @@ import { DataSource, Repository } from "typeorm";
 export const TransactionsProvider: Provider<Repository<Transaction>> = {
     provide: 'TRANSACTIONS_REPOSITORY',
     useFactory: (dataSource: DataSource) => dataSource.getRepository(Transaction),
-    inject: [DataSource],
+    inject: ['DATA_SOURCE'],
 };
